@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -21,6 +22,7 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private TextView textView;
@@ -143,6 +145,22 @@ public class MainActivity extends AppCompatActivity {
                     uiHandler.sendEmptyMessage(2);
 
                 }catch (Exception e){
+                    Log.v("brad", e.toString());
+                }
+            }
+        }.start();
+    }
+    public void test6(View v){
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    MultipartUtility mu = new MultipartUtility("http://10.0.3.2/christ/add2.php", "UTF-8");
+                    mu.addFormField("account", "mary");
+                    mu.addFormField("passwd", "4321");
+                    List<String> ret =  mu.finish();
+                    Log.v("brad", ret.get(0));
+                }catch (IOException e){
                     Log.v("brad", e.toString());
                 }
             }
